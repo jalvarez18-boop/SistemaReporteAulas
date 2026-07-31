@@ -29,6 +29,11 @@
             border-bottom: 3px solid #004A8F;
             padding-bottom: 20px;
         }
+        .header .logo {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
         .header h1 { color: #004A8F; font-size: 22px; font-weight: 700; }
         .header h2 { color: #666; font-size: 16px; font-weight: 400; margin-top: 5px; }
         .header .subtitle {
@@ -47,14 +52,22 @@
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            text-align: center;
         }
-        .aula-detected .icon { font-size: 24px; }
-        .aula-detected .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-        .aula-detected .value { font-size: 20px; font-weight: 700; color: #004A8F; }
-        .aula-detected .value.error { color: #e74c3c; }
+        .aula-detected .label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .aula-detected .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #004A8F;
+        }
+        .aula-detected .value.error {
+            color: #e74c3c;
+        }
         .form-group { margin-bottom: 22px; }
         .form-group label { display: block; font-weight: 600; color: #333; font-size: 14px; margin-bottom: 8px; }
         .form-group label .required { color: #e74c3c; margin-left: 3px; }
@@ -94,6 +107,7 @@
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(0, 74, 143, 0.35);
             margin-top: 10px;
+            text-align: center;
         }
         .btn-enviar:hover { background: #003a72; transform: translateY(-2px); }
         .btn-enviar:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -120,13 +134,14 @@
 <div class="container">
 
     <div class="header">
+        <!-- 🔥 LOGO DE LA UNIVERSIDAD -->
+        <img src="logo_Unica.png" alt="Logo UCMOB" class="logo">
         <h1>Universidad Cardenal<br>Miguel Obando Bravo</h1>
         <h2>Soporte Tecnológico</h2>
         <span class="subtitle">📱 Reporte de Incidencias</span>
     </div>
 
     <div class="aula-detected">
-        <span class="icon">📍</span>
         <div class="info">
             <div class="label">Aula detectada automáticamente</div>
             <div class="value" id="aulaDisplay">⚠️ No detectada</div>
@@ -148,9 +163,6 @@
                 <option value="Internet">🌐 Internet</option>
                 <option value="CPU">🖥️ CPU</option>
                 <option value="Teclado">⌨️ Teclado</option>
-                <option value="Mouse">🖱️ Mouse</option>
-                <option value="Pizarra digital">📺 Pizarra digital</option>
-                <option value="Otro">🔧 Otro</option>
             </select>
         </div>
 
@@ -168,7 +180,7 @@
         </div>
 
         <button type="submit" class="btn-enviar" id="btnEnviar">
-            📨 Enviar reporte
+            Enviar reporte
         </button>
     </form>
 
@@ -184,13 +196,8 @@
     (function() {
         "use strict";
 
-        // ============================================================
-        // 🔥 CONFIGURACIÓN - URL DE TU APP WEB
-        // ============================================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwPxYsCehltO5hAdUVvy8ld-eq1r3H2_4N3T-OrPdfG6K92Xy2daGWcTvuE_R7pNur1/exec';
-        // ============================================================
 
-        // DETECTAR AULA DESDE LA URL
         function getParameterByName(nombre) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(nombre) || '';
@@ -209,7 +216,6 @@
             aulaDisplay.className = 'value error';
         }
 
-        // MANEJAR EL ENVÍO
         const form = document.getElementById('incidenciaForm');
         const btn = document.getElementById('btnEnviar');
         const mensaje = document.getElementById('mensaje');
@@ -232,32 +238,26 @@
             btn.textContent = '⏳ Enviando...';
             mensaje.style.display = 'none';
 
-            // Crear FormData
             const formData = new FormData(form);
             formData.append('aula', aulaInput.value);
 
-            // ============================================================
-            // 🔥 NUEVA VERSIÓN: Maneja respuesta en texto plano
-            // ============================================================
             fetch(scriptURL, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.text())  // 🔥 Cambio clave: .text() en lugar de .json()
+            .then(response => response.text())
             .then(text => {
                 if (text === "OK") {
-                    // Éxito
                     mensaje.className = 'mensaje mensaje-exito';
                     mensaje.innerHTML = '<span class="icono">✅</span> ¡Reporte enviado con éxito! El equipo de mantenimiento ha sido notificado.';
                     mensaje.style.display = 'block';
                     form.style.display = 'none';
                 } else {
-                    // Error (si la respuesta no es "OK")
                     mensaje.className = 'mensaje mensaje-error';
                     mensaje.innerHTML = '<span class="icono">❌</span> Error: ' + text;
                     mensaje.style.display = 'block';
                     btn.disabled = false;
-                    btn.textContent = '📨 Enviar reporte';
+                    btn.textContent = 'Enviar reporte';
                 }
             })
             .catch(error => {
@@ -265,10 +265,9 @@
                 mensaje.innerHTML = '<span class="icono">❌</span> Error de conexión: ' + error.message;
                 mensaje.style.display = 'block';
                 btn.disabled = false;
-                btn.textContent = '📨 Enviar reporte';
+                btn.textContent = 'Enviar reporte';
                 console.error('Error:', error);
             });
-
         });
 
     })();
