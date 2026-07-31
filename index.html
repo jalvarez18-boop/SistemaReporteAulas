@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte Tecnológico - UCMOB</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 480px;
+            width: 100%;
+            padding: 35px 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004A8F;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #004A8F;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header h2 {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 5px;
+        }
+
+        .header .subtitle {
+            display: inline-block;
+            background: #e8f0fe;
+            color: #004A8F;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .aula-detected {
+            background: #f0f4ff;
+            border-left: 4px solid #004A8F;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .aula-detected .icon {
+            font-size: 24px;
+        }
+
+        .aula-detected .label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .aula-detected .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #004A8F;
+        }
+
+        .aula-detected .value.error {
+            color: #e74c3c;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+            margin-left: 3px;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #004A8F;
+            background-color: white;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 74, 143, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+            max-height: 150px;
+        }
+
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 16px;
+            background: #004A8F;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 74, 143, 0.35);
+            margin-top: 10px;
+        }
+
+        .btn-enviar:hover {
+            background: #003a72;
+            transform: translateY(-2px);
+        }
+
+        .btn-enviar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .mensaje {
+            display: none;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .mensaje-exito {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .mensaje-error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .mensaje .icono {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 25px 18px; }
+            .header h1 { font-size: 19px; }
+            .btn-enviar { font-size: 16px; padding: 14px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Universidad Cardenal<br>Miguel Obando Bravo</h1>
+        <h2>Soporte Tecnológico</h2>
+        <span class="subtitle">📱 Reporte de Incidencias</span>
+    </div>
+
+    <div class="aula-detected">
+        <span class="icon">📍</span>
+        <div class="info">
+            <div class="label">Aula detectada automáticamente</div>
+            <div class="value" id="aulaDisplay">⚠️ No detectada</div>
+        </div>
+    </div>
+
+    <form id="incidenciaForm">
+        <input type="hidden" name="aula" id="aulaInput" value="">
+
+        <div class="form-group">
+            <label for="equipo">
+                Seleccione el equipo afectado
+                <span class="required">*</span>
+            </label>
+            <select id="equipo" name="equipo" required>
+                <option value="">-- Selecciona una opción --</option>
+                <option value="Proyector">📽️ Proyector</option>
+                <option value="Audio">🔊 Audio</option>
+                <option value="Internet">🌐 Internet</option>
+                <option value="CPU">🖥️ CPU</option>
+                <option value="Teclado">⌨️ Teclado</option>
+                <option value="Mouse">🖱️ Mouse</option>
+                <option value="Pizarra digital">📺 Pizarra digital</option>
+                <option value="Otro">🔧 Otro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">
+                Descripción del problema
+                <span style="color:#999;font-weight:400;font-size:13px;">(opcional)</span>
+            </label>
+            <textarea
+                id="descripcion"
+                name="descripcion"
+                placeholder="Ej: El proyector no enciende..."
+                maxlength="300"
+            ></textarea>
+        </div>
+
+        <button type="submit" class="btn-enviar" id="btnEnviar">
+            📨 Enviar reporte
+        </button>
+    </form>
+
+    <div class="mensaje" id="mensaje"></div>
+
+    <div class="footer">
+        © 2026 Dirección de Tecnología - UCMOB
+    </div>
+
+</div>
+
+<script>
+    (function() {
+        "use strict";
+
+        // ============================================================
+        // 1. CONFIGURACIÓN - ¡CAMBIAR AQUÍ!
+        // ============================================================
+        // 👇 Esta es la URL de tu App Web de Google Apps Script
+        // DEBE terminar en /exec
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx_1H_xqMzlEpymMJ0nTRctvQgpMJRXSQvKfc2_vTLhz6R_iQTdkaxpzOxHMuu-M4O7/exec';
+        // ============================================================
+
+        // 2. DETECTAR EL AULA DESDE LA URL
+        function getParameterByName(nombre) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(nombre) || '';
+        }
+
+        const aula = getParameterByName('aula');
+        const aulaDisplay = document.getElementById('aulaDisplay');
+        const aulaInput = document.getElementById('aulaInput');
+
+        if (aula) {
+            aulaDisplay.textContent = 'Aula ' + aula;
+            aulaDisplay.className = 'value';
+            aulaInput.value = aula;
+        } else {
+            aulaDisplay.textContent = '⚠️ No detectada';
+            aulaDisplay.className = 'value error';
+        }
+
+        // 3. MANEJAR EL ENVÍO DEL FORMULARIO
+        const form = document.getElementById('incidenciaForm');
+        const btn = document.getElementById('btnEnviar');
+        const mensaje = document.getElementById('mensaje');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const equipo = document.getElementById('equipo').value;
+            if (!equipo) {
+                alert('⚠️ Por favor, selecciona un equipo afectado.');
+                return;
+            }
+
+            if (!aulaInput.value) {
+                alert('⚠️ No se detectó el aula. Escanea el QR correcto.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Enviando...';
+            mensaje.style.display = 'none';
+
+            // Crear FormData con los datos del formulario
+            const formData = new FormData(form);
+            formData.append('aula', aulaInput.value); // Aseguramos que el aula esté
+
+            // Enviar con fetch a la URL de Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exito) {
+                    mensaje.className = 'mensaje mensaje-exito';
+                    mensaje.innerHTML = '<span class="icono">✅</span> ' + data.mensaje;
+                    mensaje.style.display = 'block';
+                    form.style.display = 'none';
+                } else {
+                    mensaje.className = 'mensaje mensaje-error';
+                    mensaje.innerHTML = '<span class="icono">❌</span> ' + data.mensaje;
+                    mensaje.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = '📨 Enviar reporte';
+                }
+            })
+            .catch(error => {
+                mensaje.className = 'mensaje mensaje-error';
+                mensaje.innerHTML = '<span class="icono">❌</span> Error de conexión: ' + error.message;
+                mensaje.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '📨 Enviar reporte';
+                console.error('Error:', error);
+            });
+        });
+
+    })();
+</script>
+
+</body>
+</html>
