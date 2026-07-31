@@ -1,5 +1,4 @@
-
-          <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -186,7 +185,7 @@
         "use strict";
 
         // ============================================================
-        // 🔥 CONFIGURACIÓN - ¡PON AQUÍ LA URL DE TU APP WEB!
+        // 🔥 CONFIGURACIÓN - URL DE TU APP WEB
         // ============================================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwPxYsCehltO5hAdUVvy8ld-eq1r3H2_4N3T-OrPdfG6K92Xy2daGWcTvuE_R7pNur1/exec';
         // ============================================================
@@ -237,21 +236,25 @@
             const formData = new FormData(form);
             formData.append('aula', aulaInput.value);
 
-            // Enviar con fetch
+            // ============================================================
+            // 🔥 NUEVA VERSIÓN: Maneja respuesta en texto plano
+            // ============================================================
             fetch(scriptURL, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.exito) {
+            .then(response => response.text())  // 🔥 Cambio clave: .text() en lugar de .json()
+            .then(text => {
+                if (text === "OK") {
+                    // Éxito
                     mensaje.className = 'mensaje mensaje-exito';
-                    mensaje.innerHTML = '<span class="icono">✅</span> ' + data.mensaje;
+                    mensaje.innerHTML = '<span class="icono">✅</span> ¡Reporte enviado con éxito! El equipo de mantenimiento ha sido notificado.';
                     mensaje.style.display = 'block';
                     form.style.display = 'none';
                 } else {
+                    // Error (si la respuesta no es "OK")
                     mensaje.className = 'mensaje mensaje-error';
-                    mensaje.innerHTML = '<span class="icono">❌</span> ' + data.mensaje;
+                    mensaje.innerHTML = '<span class="icono">❌</span> Error: ' + text;
                     mensaje.style.display = 'block';
                     btn.disabled = false;
                     btn.textContent = '📨 Enviar reporte';
@@ -265,6 +268,7 @@
                 btn.textContent = '📨 Enviar reporte';
                 console.error('Error:', error);
             });
+
         });
 
     })();
